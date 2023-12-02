@@ -1,3 +1,4 @@
+import { join } from 'path'
 import { LoggerMiddleware } from 'src/logger.middleware'
 import {
   MiddlewareConsumer,
@@ -5,10 +6,17 @@ import {
   NestModule,
   RequestMethod
 } from '@nestjs/common'
+import { ServeStaticModule } from '@nestjs/serve-static'
 import { MemesModule } from './memes/memes.module'
 
 @Module({
-  imports: [MemesModule]
+  imports: [
+    MemesModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'client', 'dist'),
+      exclude: ['/api/(.*)']
+    })
+  ]
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
