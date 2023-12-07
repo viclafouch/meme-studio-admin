@@ -5,10 +5,25 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
+    port: 3001,
     proxy: {
       '/api': {
         target: 'http://localhost:3000',
-        changeOrigin: true
+        changeOrigin: true,
+        rewrite: (path) => {
+          console.log(path)
+
+          return path.replace(/^\/api/, '')
+        }
+      },
+      '/foo': {
+        target: 'http://jsonplaceholder.typicode.com',
+        changeOrigin: true,
+        rewrite: (path) => {
+          console.log(path)
+
+          return path.replace(/^\/foo/, '')
+        }
       }
     }
   }

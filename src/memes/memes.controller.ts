@@ -1,3 +1,4 @@
+import { AuthGuard } from 'src/auth/auth.guard'
 import { ZodValidationPipe } from 'src/pipes/zod'
 import {
   Body,
@@ -8,6 +9,7 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  UseGuards,
   UsePipes
 } from '@nestjs/common'
 import { createMemeSchema, MemeDto } from './dto/create-meme.dto'
@@ -24,6 +26,7 @@ export class MemesController {
   }
 
   @Post()
+  @UseGuards(AuthGuard)
   @UsePipes(new ZodValidationPipe(createMemeSchema))
   @HttpCode(HttpStatus.CREATED)
   create(@Body() createMemeDto: MemeDto) {

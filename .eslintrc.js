@@ -14,6 +14,7 @@ module.exports = {
   rules: {
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
-    'class-methods-use-this': 'off'
+    'class-methods-use-this': 'off',
+    '@typescript-eslint/require-await': 'off'
   },
 };
