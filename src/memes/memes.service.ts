@@ -1,15 +1,20 @@
+import { Model } from 'mongoose'
+import { MemeDto } from 'src/memes/dto/create-meme.dto'
+import { Meme } from 'src/schemas/meme.schema'
 import { Injectable } from '@nestjs/common'
-import { Meme } from './interfaces/meme.interface'
+import { InjectModel } from '@nestjs/mongoose'
 
 @Injectable()
 export class MemesService {
-  private readonly memes: Meme[] = []
+  constructor(@InjectModel(Meme.name) private memeModel: Model<Meme>) {}
 
-  create(meme: Meme) {
-    this.memes.push(meme)
+  async create(dto: MemeDto): Promise<Meme> {
+    const createdCat = new this.memeModel(dto)
+
+    return createdCat.save()
   }
 
-  findAll(): Meme[] {
-    return this.memes
+  async findAll(): Promise<Meme[]> {
+    return this.memeModel.find().exec()
   }
 }

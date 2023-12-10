@@ -9,21 +9,7 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: 'http://localhost:3000',
-        changeOrigin: true,
-        rewrite: (path) => {
-          console.log(path)
-
-          return path.replace(/^\/api/, '')
-        }
-      },
-      '/foo': {
-        target: 'http://jsonplaceholder.typicode.com',
-        changeOrigin: true,
-        rewrite: (path) => {
-          console.log(path)
-
-          return path.replace(/^\/foo/, '')
-        }
+        changeOrigin: true
       }
     }
   }

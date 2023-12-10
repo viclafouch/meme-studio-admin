@@ -3,5 +3,4 @@ export interface Meme {
   height: number
   width: number
   id: string
-  slug: string
 }

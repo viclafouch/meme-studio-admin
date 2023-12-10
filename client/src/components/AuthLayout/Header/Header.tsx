@@ -6,7 +6,7 @@ import Container from '@mui/material/Container'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import { useMutation } from '@tanstack/react-query'
-import { useNavigate } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { useAuth } from '../../../stores/Auth'
 
 const pages = ['Memes']
@@ -52,8 +52,11 @@ const ResponsiveAppBar = () => {
           <Box sx={{ flexGrow: 1, display: 'flex' }}>
             {pages.map((page) => {
               return (
+                // @ts-expect-error
                 <Button
                   key={page}
+                  LinkComponent={Link}
+                  to="/memes"
                   sx={{ my: 2, color: 'white', display: 'block' }}
                 >
                   {page}
