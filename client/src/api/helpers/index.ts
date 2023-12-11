@@ -1,9 +1,8 @@
 import wretch from 'wretch'
+import FormDataAddon from 'wretch/addons/formData'
 
 export const requestWithAuth = wretch('/api/auth')
-  .headers({
-    'content-type': 'application/json'
-  })
   .options({
     credentials: 'same-origin'
   })
+  .addon(FormDataAddon)

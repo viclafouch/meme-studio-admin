@@ -1,13 +1,17 @@
-import { z } from 'zod'
+import {
+  HasMimeType,
+  IsFile,
+  MaxFileSize,
+  MemoryStoredFile
+} from 'nestjs-form-data'
 
-export const createMemeSchema = z
-  .object({
-    filename: z.string(),
-    height: z.number(),
-    width: z.number(),
-    id: z.string(),
-    slug: z.string()
-  })
-  .required()
+export class MemeDto {
+  @IsFile()
+  @MaxFileSize(1e8)
+  @HasMimeType(['image/jpeg', 'image/png'])
+  image: MemoryStoredFile
 
-export type MemeDto = z.infer<typeof createMemeSchema>
+  width: number
+
+  height: number
+}

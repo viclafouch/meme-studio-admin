@@ -1,6 +1,6 @@
 import React from 'react'
 import Grid from '@mui/material/Unstable_Grid2'
-import { Meme } from '../../../../shared/meme.interface'
+import { Meme } from '../../types/meme.interface'
 import MemesListItem from '../MemesListItem'
 
 export type MemesListProps = {

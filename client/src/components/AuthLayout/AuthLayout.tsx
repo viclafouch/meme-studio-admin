@@ -8,10 +8,15 @@ export type AuthLayoutProps = {
 
 const AuthLayout = ({ children }: AuthLayoutProps) => {
   return (
-    <div>
+    <>
       <Header />
-      <Container sx={{ py: 5 }}>{children}</Container>
-    </div>
+      <Container
+        component="main"
+        sx={{ py: 5, flexGrow: 1, position: 'relative' }}
+      >
+        {children}
+      </Container>
+    </>
   )
 }
 

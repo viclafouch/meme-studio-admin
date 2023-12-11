@@ -1,7 +1,7 @@
-import { Request } from 'express'
+import { FormDataRequest } from 'nestjs-form-data'
 import { AuthGuard } from 'src/auth/auth.guard'
+import { MemeDto } from 'src/memes/dto/create-meme.dto'
 import { MemesService } from 'src/memes/memes.service'
-import { ZodValidationPipe } from 'src/pipes/zod'
 import {
   Body,
   Controller,
@@ -9,11 +9,10 @@ import {
   HttpCode,
   HttpStatus,
   Post,
-  UseGuards,
-  UsePipes
+  UseGuards
 } from '@nestjs/common'
 import { AuthService } from './auth.service'
-import { SignInDto, signInSchema } from './dto/sign-in.dto'
+import { SignInDto } from './dto/sign-in.dto'
 
 @Controller('auth')
 export class AuthController {
@@ -24,7 +23,6 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  @UsePipes(new ZodValidationPipe(signInSchema))
   signIn(@Body() signInDto: SignInDto) {
     return this.authService.signIn(signInDto.email, signInDto.password)
   }
@@ -34,5 +32,13 @@ export class AuthController {
   @Get('memes')
   getMemes() {
     return this.memesService.findAll()
+  }
+
+  @HttpCode(HttpStatus.OK)
+  // @UseGuards(AuthGuard)
+  @Post('memes/new')
+  @FormDataRequest()
+  async postMeme(@Body() body: MemeDto) {
+    return this.memesService.create(body)
   }
 }

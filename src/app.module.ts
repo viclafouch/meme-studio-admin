@@ -1,3 +1,4 @@
+import { NestjsFormDataModule } from 'nestjs-form-data'
 import { join } from 'path'
 import { jwtConstants } from 'src/constants/jwt'
 import { LoggerMiddleware } from 'src/logger.middleware'
@@ -7,11 +8,12 @@ import {
   NestModule,
   RequestMethod
 } from '@nestjs/common'
-import { ConfigModule } from '@nestjs/config'
+import { ConfigModule, ConfigService } from '@nestjs/config'
 import { JwtModule } from '@nestjs/jwt'
 import { MongooseModule } from '@nestjs/mongoose'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import { AuthModule } from './auth/auth.module'
+import { CloudinaryModule } from './cloudinary/cloudinary.module'
 import { MemesModule } from './memes/memes.module'
 import { UsersModule } from './users/users.module'
 
@@ -25,15 +27,23 @@ import { UsersModule } from './users/users.module'
     }),
     AuthModule,
     UsersModule,
+    NestjsFormDataModule,
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '2 days' }
     }),
-    ConfigModule.forRoot({ cache: true }),
-    MongooseModule.forRoot(
-      'mongodb+srv://viclafouch:OtS2DuNbbx7PKg5E@cluster0.e095fov.mongodb.net/?retryWrites=true&w=majority'
-    )
+    ConfigModule.forRoot({ cache: true, isGlobal: true }),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (config: ConfigService) => {
+        return {
+          uri: config.get<string>('MONGO_DB_URI')
+        }
+      }
+    }),
+    CloudinaryModule
   ]
 })
 export class AppModule implements NestModule {

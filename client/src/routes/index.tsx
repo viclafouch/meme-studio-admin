@@ -7,11 +7,11 @@ import {
   Router
 } from '@tanstack/react-router'
 import AuthLayout from '../components/AuthLayout'
-import { queryClient } from '../config/query-client'
 import { useAuth } from '../stores/Auth'
 import HomePage from '../views/Home'
 import LoginPage from '../views/Login'
 import MemesPage from '../views/Memes'
+import NewMemePage from '../views/NewMeme'
 
 const rootRoute = new RootRoute()
 
@@ -59,18 +59,20 @@ const memesRoute = new Route({
   component: MemesPage
 })
 
+const newMemeRoute = new Route({
+  getParentRoute: () => {
+    return authRoute
+  },
+  path: 'memes/new',
+  component: NewMemePage
+})
+
 const routeTree = rootRoute.addChildren([
-  authRoute.addChildren([indexRoute, memesRoute]),
+  authRoute.addChildren([indexRoute, memesRoute, newMemeRoute]),
   loginRoute
 ])
 
-export const router = new Router({
-  routeTree,
-  context: {
-    token: '',
-    queryClient
-  }
-})
+export const router = new Router({ routeTree })
 
 declare module '@tanstack/react-router' {
   interface Register {
