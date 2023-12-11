@@ -1,8 +1,8 @@
-import { Model } from 'mongoose'
+import { Model, Types } from 'mongoose'
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service'
 import { MemeDto } from 'src/memes/dto/create-meme.dto'
 import { Meme } from 'src/memes/schemas/meme.schema'
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 
 @Injectable()
@@ -28,5 +28,21 @@ export class MemesService {
 
   async findAll(): Promise<Meme[]> {
     return this.memeModel.find().exec()
+  }
+
+  async findOne(id: string): Promise<Meme> {
+    const validObjectId = Types.ObjectId.isValid(id)
+
+    if (!validObjectId) {
+      throw new NotFoundException()
+    }
+
+    const meme = await this.memeModel.findById(id)
+
+    if (!meme) {
+      throw new NotFoundException()
+    }
+
+    return meme.toJSON()
   }
 }

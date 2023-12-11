@@ -8,6 +8,7 @@ import {
   CardMedia,
   Typography
 } from '@mui/material'
+import { Link } from '@tanstack/react-router'
 import { Meme } from '../../types/meme.interface'
 
 export type MemesListItemProps = {
@@ -16,7 +17,8 @@ export type MemesListItemProps = {
 
 const MemesListItem = ({ meme }: MemesListItemProps) => {
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    // @ts-expect-error
+    <Card sx={{ maxWidth: 345 }} component={Link} to={`/memes/${meme.id}`}>
       <CardActionArea>
         <CardMedia
           component="img"

@@ -8,6 +8,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
   UseGuards
 } from '@nestjs/common'
@@ -34,8 +35,15 @@ export class AuthController {
     return this.memesService.findAll()
   }
 
+  @UseGuards(AuthGuard)
+  @Get('memes/:id')
   @HttpCode(HttpStatus.OK)
-  // @UseGuards(AuthGuard)
+  getMeme(@Param('id') id: string) {
+    return this.memesService.findOne(id)
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(AuthGuard)
   @Post('memes/new')
   @FormDataRequest()
   async postMeme(@Body() body: MemeDto) {

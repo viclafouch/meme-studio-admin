@@ -10,6 +10,15 @@ export function getAllMemes() {
     .json<Meme[]>()
 }
 
+export function getOneMeme(id: Meme['id']) {
+  return requestWithAuth
+    .headers({
+      'content-type': 'application/json'
+    })
+    .get(`/memes/${id}`)
+    .json<Meme>()
+}
+
 export function newMeme({ image }: { image: File }) {
   return requestWithAuth
     .url('/memes/new')

@@ -1,11 +1,4 @@
-import {
-  Controller,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Param,
-  ParseIntPipe
-} from '@nestjs/common'
+import { Controller, Get, HttpCode, HttpStatus, Param } from '@nestjs/common'
 import { MemesService } from './memes.service'
 
 @Controller('memes')
@@ -20,7 +13,7 @@ export class MemesController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return id
+  findOne(@Param('id') id: string) {
+    return this.memesService.findOne(id)
   }
 }
