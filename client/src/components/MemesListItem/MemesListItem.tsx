@@ -17,9 +17,9 @@ export type MemesListItemProps = {
 
 const MemesListItem = ({ meme }: MemesListItemProps) => {
   return (
-    // @ts-expect-error
-    <Card sx={{ maxWidth: 345 }} component={Link} to={`/memes/${meme.id}`}>
-      <CardActionArea>
+    <Card sx={{ maxWidth: 345, textDecoration: 'none' }}>
+      {/* @ts-expect-error */}
+      <CardActionArea component={Link} to={`/memes/${meme.id}`}>
         <CardMedia
           component="img"
           height="140"
@@ -37,7 +37,16 @@ const MemesListItem = ({ meme }: MemesListItemProps) => {
       </CardActionArea>
       <CardActions>
         <Button size="small" color="primary">
-          Share
+          Partager
+        </Button>
+        {/* @ts-expect-error */}
+        <Button
+          size="small"
+          color="primary"
+          LinkComponent={Link}
+          to={`/memes/${meme.id}`}
+        >
+          Modifier
         </Button>
       </CardActions>
     </Card>

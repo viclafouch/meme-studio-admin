@@ -9,6 +9,9 @@ export class Meme {
   imageUrl: string
 
   @Prop()
+  fileId: string
+
+  @Prop()
   width: number
 
   @Prop()

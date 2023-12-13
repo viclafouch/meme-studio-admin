@@ -9,6 +9,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api')
   app.use(cookieParser())
   app.use(json({ limit: '10mb' }))
+  app.enableCors()
   app.useGlobalPipes(new ValidationPipe())
 
   await app.listen(3000)

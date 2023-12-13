@@ -1,0 +1,78 @@
+import React from 'react'
+import { Box } from '@mui/material'
+import {
+  useCanvasDimensions,
+  useDrawing,
+  useItemIdSelected,
+  useMeme,
+  useTextboxes,
+  useTools
+} from '@viclafouch/meme-studio-utilities/hooks'
+import { Meme, TextBox } from '@viclafouch/meme-studio-utilities/schemas'
+import { CanvasStyled, CanvasWrapperStyled } from './Canvas.styled'
+import Draggable from './Draggable'
+
+const Canvas = () => {
+  const meme = useMeme() as Meme
+  const canvasElRef = React.useRef<HTMLCanvasElement>(null)
+  const containerRef = React.useRef<HTMLDivElement>(null)
+  const { textboxes, updateTextbox } = useTextboxes()
+  const { canvasDimensions } = useCanvasDimensions()
+  const { isVisibleDraggables } = useTools()
+  const { itemIdSelected, setItemIdSelected } = useItemIdSelected()
+
+  useDrawing({
+    canvasElRef,
+    containerRef
+  })
+
+  const onDraggableClick = React.useCallback(
+    (item: TextBox) => {
+      setItemIdSelected(item.id, true)
+    },
+    [setItemIdSelected]
+  )
+
+  return (
+    <Box
+      flex={1}
+      width="100%"
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+    >
+      <Box height="100%" width="100%" position="relative" ref={containerRef}>
+        <CanvasWrapperStyled
+          style={{
+            height: canvasDimensions.height,
+            width: canvasDimensions.width,
+            backgroundImage: `url('${meme.imageUrl}')`
+          }}
+        >
+          {isVisibleDraggables && canvasDimensions.height
+            ? textboxes.map((textbox) => {
+                return (
+                  <Draggable
+                    key={textbox.id}
+                    item={textbox}
+                    canvasHeight={canvasDimensions.height}
+                    canvasWidth={canvasDimensions.width}
+                    updateItem={updateTextbox}
+                    onClick={onDraggableClick}
+                    isSelected={itemIdSelected === textbox.id}
+                  />
+                )
+              })
+            : null}
+          <CanvasStyled
+            ref={canvasElRef}
+            width={canvasDimensions.width}
+            height={canvasDimensions.height}
+          />
+        </CanvasWrapperStyled>
+      </Box>
+    </Box>
+  )
+}
+
+export default Canvas

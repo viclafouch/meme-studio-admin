@@ -12,7 +12,14 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
       <Header />
       <Container
         component="main"
-        sx={{ py: 5, flexGrow: 1, position: 'relative' }}
+        sx={{
+          py: 5,
+          flexGrow: 1,
+          height: 'calc(100dvh - 64px)',
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column'
+        }}
       >
         {children}
       </Container>

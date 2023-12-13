@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto'
 import { Model, Types } from 'mongoose'
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service'
 import { MemeDto } from 'src/memes/dto/create-meme.dto'
@@ -13,12 +14,26 @@ export class MemesService {
   ) {}
 
   async create(dto: MemeDto): Promise<Meme> {
-    // const fileData = await this.cloudinary.uploadImage(dto.image)
+    const fileId = randomUUID()
+
+    const fileData = await this.cloudinary.uploadImage(dto.image, {
+      folder: 'memes',
+      tags: '',
+      public_id: fileId,
+      allowed_formats: ['jpg', 'png'],
+      transformation: [
+        {
+          width: 1000,
+          format: 'webp'
+        }
+      ]
+    })
 
     const createdMeme = new this.memeModel({
       height: dto.height,
       width: dto.width,
-      imageUrl: ''
+      imageUrl: fileData.secure_url,
+      fileId
     })
 
     const meme = await createdMeme.save()
@@ -44,5 +59,11 @@ export class MemesService {
     }
 
     return meme.toJSON()
+  }
+
+  async deleteOne(id: string): Promise<Meme[]> {
+    const meme = await this.findOne(id)
+
+    return []
   }
 }

@@ -1,4 +1,4 @@
-import { Meme } from '../types/meme.interface'
+import { Meme } from '@viclafouch/meme-studio-utilities/schemas'
 import { requestWithAuth } from './helpers'
 
 export function getAllMemes() {
