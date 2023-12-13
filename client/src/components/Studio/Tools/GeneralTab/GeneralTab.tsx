@@ -1,5 +1,14 @@
 import React from 'react'
-import { Stack, TextField } from '@mui/material'
+import ContentCopyIcon from '@mui/icons-material/ContentCopy'
+import OpenInNewIcon from '@mui/icons-material/OpenInNew'
+import {
+  IconButton,
+  InputAdornment,
+  Stack,
+  TextField,
+  Tooltip
+} from '@mui/material'
+import { useClipboard } from '@viclafouch/meme-studio-utilities/hooks'
 import { Meme } from '@viclafouch/meme-studio-utilities/schemas'
 
 export type GeneralTabProps = {
@@ -7,6 +16,13 @@ export type GeneralTabProps = {
 }
 
 const GeneralTab = ({ meme }: GeneralTabProps) => {
+  const { copy } = useClipboard()
+
+  const handleCopy = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    copy({ blob: new Blob([meme.imagePublicId], { type: 'text/plain' }) })
+  }
+
   return (
     <Stack component="form" mt={2} direction="column" gap={2}>
       <TextField label="Nom" fullWidth size="small" />
@@ -16,7 +32,24 @@ const GeneralTab = ({ meme }: GeneralTabProps) => {
         fullWidth
         variant="filled"
         size="small"
-        InputProps={{ readOnly: true }}
+        InputProps={{
+          readOnly: true,
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
+                LinkComponent="a"
+                href={meme.imageUrl}
+                target="_blank"
+                color="info"
+                aria-label="Ouvrir le lien de l'image"
+              >
+                <Tooltip title="Ouvrir le lien" placement="top">
+                  <OpenInNewIcon fontSize="small" />
+                </Tooltip>
+              </IconButton>
+            </InputAdornment>
+          )
+        }}
       />
       <Stack direction="row" gap={2}>
         <TextField
@@ -25,7 +58,10 @@ const GeneralTab = ({ meme }: GeneralTabProps) => {
           fullWidth
           variant="filled"
           size="small"
-          InputProps={{ readOnly: true }}
+          InputProps={{
+            readOnly: true,
+            endAdornment: <InputAdornment position="end">px</InputAdornment>
+          }}
         />
         <TextField
           value={meme.height}
@@ -33,7 +69,10 @@ const GeneralTab = ({ meme }: GeneralTabProps) => {
           fullWidth
           variant="filled"
           size="small"
-          InputProps={{ readOnly: true }}
+          InputProps={{
+            readOnly: true,
+            endAdornment: <InputAdornment position="end">px</InputAdornment>
+          }}
         />
       </Stack>
       <TextField
@@ -42,7 +81,18 @@ const GeneralTab = ({ meme }: GeneralTabProps) => {
         fullWidth
         variant="filled"
         size="small"
-        InputProps={{ readOnly: true }}
+        InputProps={{
+          readOnly: true,
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton onClick={handleCopy} color="info" aria-label="Copier">
+                <Tooltip title="Copier" placement="top">
+                  <ContentCopyIcon fontSize="small" />
+                </Tooltip>
+              </IconButton>
+            </InputAdornment>
+          )
+        }}
       />
     </Stack>
   )

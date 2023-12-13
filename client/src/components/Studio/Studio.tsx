@@ -12,7 +12,13 @@ export type StudioProps = {
 const Studio = ({ meme }: StudioProps) => {
   return (
     <EditorProvider key={meme?.id} textBoxes={[]} meme={meme}>
-      <Box display="grid" height="100%" gridTemplateColumns="40% auto" flex={1}>
+      <Box
+        display="grid"
+        height="100%"
+        gap="5%"
+        gridTemplateColumns="40% auto"
+        flex={1}
+      >
         <Tools />
         <Canvas />
       </Box>
