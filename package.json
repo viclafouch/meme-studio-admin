@@ -26,11 +26,13 @@
     "@nestjs/mongoose": "^10.0.2",
     "@nestjs/platform-express": "^10.2.10",
     "@nestjs/serve-static": "^4.0.0",
+    "@viclafouch/meme-studio-utilities": "^1.0.10",
     "buffer-to-stream": "^1.0.0",
     "cloudinary": "^1.41.0",
     "cookie-parser": "^1.4.6",
     "mongoose": "^8.0.3",
     "nestjs-form-data": "^1.9.4",
+    "nestjs-zod": "^3.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "zod": "^3.22.4"

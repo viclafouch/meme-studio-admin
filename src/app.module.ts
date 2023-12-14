@@ -1,4 +1,5 @@
 import { NestjsFormDataModule } from 'nestjs-form-data'
+import { ZodValidationPipe } from 'nestjs-zod'
 import { join } from 'path'
 import { jwtConstants } from 'src/constants/jwt'
 import { LoggerMiddleware } from 'src/logger.middleware'
@@ -9,12 +10,14 @@ import {
   RequestMethod
 } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
+import { APP_PIPE } from '@nestjs/core'
 import { JwtModule } from '@nestjs/jwt'
 import { MongooseModule } from '@nestjs/mongoose'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import { AuthModule } from './auth/auth.module'
 import { CloudinaryModule } from './cloudinary/cloudinary.module'
 import { MemesModule } from './memes/memes.module'
+import { TextboxesModule } from './textboxes/textboxes.module'
 import { UsersModule } from './users/users.module'
 
 @Module({
@@ -43,7 +46,14 @@ import { UsersModule } from './users/users.module'
         }
       }
     }),
-    CloudinaryModule
+    CloudinaryModule,
+    TextboxesModule
+  ],
+  providers: [
+    {
+      provide: APP_PIPE,
+      useClass: ZodValidationPipe
+    }
   ]
 })
 export class AppModule implements NestModule {

@@ -1,6 +1,7 @@
 import { FormDataRequest } from 'nestjs-form-data'
 import { AuthGuard } from 'src/auth/auth.guard'
 import { MemeDto } from 'src/memes/dto/create-meme.dto'
+import { UpdateMemeDto } from 'src/memes/dto/update-meme.dto'
 import { MemesService } from 'src/memes/memes.service'
 import {
   Body,
@@ -10,6 +11,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Put,
   UseGuards
 } from '@nestjs/common'
 import { AuthService } from './auth.service'
@@ -48,5 +50,12 @@ export class AuthController {
   @FormDataRequest()
   async postMeme(@Body() body: MemeDto) {
     return this.memesService.create(body)
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(AuthGuard)
+  @Put('memes/update/:id')
+  async updateMeme(@Param('id') id: string, @Body() body: UpdateMemeDto) {
+    return this.memesService.updateOne(id, body)
   }
 }

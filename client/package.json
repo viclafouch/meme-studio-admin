@@ -17,7 +17,7 @@
     "@mui/material": "^5.14.20",
     "@tanstack/react-query": "^5.13.4",
     "@tanstack/react-router": "^0.0.1-beta.246",
-    "@viclafouch/meme-studio-utilities": "^1.0.8",
+    "@viclafouch/meme-studio-utilities": "^1.0.10",
     "immer": "^10.0.3",
     "mui-color-input": "^2.0.1",
     "react": "^18.2.0",

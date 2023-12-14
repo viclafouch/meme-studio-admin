@@ -1,7 +1,8 @@
 import { NestjsFormDataModule } from 'nestjs-form-data'
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service'
 import { MemesService } from 'src/memes/memes.service'
-import { Meme, MemeSchema } from 'src/memes/schemas/meme.schema'
+import { MemeSchema } from 'src/memes/schemas/meme.schema'
+import { TextBoxSchema } from 'src/textboxes/schemas/textbox.schema'
 import { Module } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
 import { UsersModule } from '../users/users.module'
@@ -12,7 +13,10 @@ import { AuthService } from './auth.service'
   imports: [
     UsersModule,
     NestjsFormDataModule,
-    MongooseModule.forFeature([{ name: Meme.name, schema: MemeSchema }])
+    MongooseModule.forFeature([
+      { name: 'Meme', schema: MemeSchema },
+      { name: 'Textbox', schema: TextBoxSchema }
+    ])
   ],
   providers: [AuthService, MemesService, CloudinaryService],
   controllers: [AuthController]
