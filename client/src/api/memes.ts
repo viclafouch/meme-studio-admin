@@ -1,4 +1,5 @@
-import { Meme } from '@viclafouch/meme-studio-utilities/schemas'
+import { Meme, memeSchema } from '@viclafouch/meme-studio-utilities/schemas'
+import type { UpdateMemeDto } from './../../../src/memes/dto/update-meme.dto'
 import { requestWithAuth } from './helpers'
 
 export function getAllMemes() {
@@ -16,7 +17,7 @@ export function getOneMeme(id: Meme['id']) {
       'content-type': 'application/json'
     })
     .get(`/memes/${id}`)
-    .json<Meme>()
+    .json<Meme>(memeSchema.parse)
 }
 
 export function newMeme({ image }: { image: File }) {
@@ -24,5 +25,12 @@ export function newMeme({ image }: { image: File }) {
     .url('/memes/new')
     .formData({ image, width: 100, height: 100, slug: 'test' })
     .post()
-    .json<Meme>()
+    .json<Meme>(memeSchema.parse)
+}
+
+export function updateMeme(memeId: Meme['id'], body: UpdateMemeDto) {
+  return requestWithAuth
+    .url(`/memes/update/${memeId}`)
+    .put(body)
+    .json<Meme>(memeSchema.parse)
 }

@@ -64,8 +64,15 @@ export class MemesService {
     return this.memeModel.find().exec()
   }
 
-  async findOne(id: string): Promise<Meme> {
-    const meme = this.getMemeDocById(id)
+  async findOne(
+    id: string,
+    { withTextboxes = false }: { withTextboxes: boolean }
+  ): Promise<Meme> {
+    const meme = await this.getMemeDocById(id)
+
+    if (withTextboxes) {
+      return meme.populate('textboxes')
+    }
 
     return meme
   }
@@ -80,7 +87,13 @@ export class MemesService {
       await this.textboxModel.deleteMany({ _id: { $in: meme.textboxes } })
       const { textboxes } = dto
 
-      const createdTextboxes = await this.textboxModel.insertMany(textboxes)
+      const createdTextboxes = await this.textboxModel.insertMany(
+        textboxes.map((properties) => {
+          return {
+            properties
+          }
+        })
+      )
 
       const textboxIds: string[] = createdTextboxes.map((textboxDoc) => {
         return textboxDoc.id

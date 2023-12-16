@@ -1,4 +1,5 @@
 import React from 'react'
+import { SnackbarProvider } from 'notistack'
 import CssBaseline from '@mui/material/CssBaseline'
 import GlobalStyles from '@mui/material/GlobalStyles'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
@@ -27,9 +28,11 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <ThemeProvider theme={darkTheme}>
-          <CssBaseline />
-          {InputGlobalStyles}
-          <RouterProvider router={router} />
+          <SnackbarProvider autoHideDuration={5000}>
+            <CssBaseline />
+            {InputGlobalStyles}
+            <RouterProvider router={router} />
+          </SnackbarProvider>
         </ThemeProvider>
       </AuthProvider>
     </QueryClientProvider>

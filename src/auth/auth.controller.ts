@@ -41,7 +41,9 @@ export class AuthController {
   @Get('memes/:id')
   @HttpCode(HttpStatus.OK)
   getMeme(@Param('id') id: string) {
-    return this.memesService.findOne(id)
+    return this.memesService.findOne(id, {
+      withTextboxes: true
+    })
   }
 
   @HttpCode(HttpStatus.OK)
@@ -53,7 +55,7 @@ export class AuthController {
   }
 
   @HttpCode(HttpStatus.OK)
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Put('memes/update/:id')
   async updateMeme(@Param('id') id: string, @Body() body: UpdateMemeDto) {
     return this.memesService.updateOne(id, body)

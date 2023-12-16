@@ -1,20 +1,58 @@
 import React from 'react'
+import { useSnackbar } from 'notistack'
 import AddIcon from '@mui/icons-material/Add'
 import SaveIcon from '@mui/icons-material/Save'
+import LoadingButton from '@mui/lab/LoadingButton'
 import { Box, Button } from '@mui/material'
-import { useTools } from '@viclafouch/meme-studio-utilities/hooks'
+import { useMutation } from '@tanstack/react-query'
+import {
+  useRatiotedTextboxes,
+  useTools
+} from '@viclafouch/meme-studio-utilities/hooks'
+import { Meme } from '@viclafouch/meme-studio-utilities/schemas'
+import { updateMeme } from '../../../../api/memes'
 
 export type ToolsActionsProps = {
   onAddText: () => void
+  meme: Meme
 }
 
-const ToolsActions = ({ onAddText }: ToolsActionsProps) => {
+const ToolsActions = ({ onAddText, meme }: ToolsActionsProps) => {
   const { addTextbox } = useTools()
+  const ratiotedTextboxes = useRatiotedTextboxes()
+  const { enqueueSnackbar } = useSnackbar()
+
+  const updateMemeMutation = useMutation({
+    mutationFn: () => {
+      return updateMeme(meme.id, {
+        meme,
+        textboxes: ratiotedTextboxes().map((textbox) => {
+          return textbox.properties
+        })
+      })
+    },
+    onSuccess: () => {
+      enqueueSnackbar('Mise à jour effectuée', { variant: 'success' })
+    },
+    onError: () => {
+      enqueueSnackbar('Mise à jour effectuée', { variant: 'error' })
+    }
+  })
 
   const handleAddTextbox = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     addTextbox()
     onAddText?.()
+  }
+
+  const handleSave = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+
+    if (updateMemeMutation.isPending) {
+      return
+    }
+
+    updateMemeMutation.mutate()
   }
 
   return (
@@ -26,9 +64,15 @@ const ToolsActions = ({ onAddText }: ToolsActionsProps) => {
       flexShrink={0}
       gap={2}
     >
-      <Button variant="outlined" startIcon={<SaveIcon />} type="button">
+      <LoadingButton
+        loading={updateMemeMutation.isPending}
+        variant="outlined"
+        startIcon={<SaveIcon />}
+        type="button"
+        onClick={handleSave}
+      >
         Sauvegarder
-      </Button>
+      </LoadingButton>
       <Button
         variant="outlined"
         startIcon={<AddIcon />}

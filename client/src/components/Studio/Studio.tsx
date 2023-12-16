@@ -11,7 +11,7 @@ export type StudioProps = {
 
 const Studio = ({ meme }: StudioProps) => {
   return (
-    <EditorProvider key={meme?.id} textBoxes={[]} meme={meme}>
+    <EditorProvider key={meme.id} textBoxes={meme.textboxes} meme={meme}>
       <Box
         display="grid"
         height="100%"

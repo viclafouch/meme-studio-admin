@@ -5,12 +5,10 @@ import {
   textboxPropertiesSchema
 } from '@viclafouch/meme-studio-utilities/schemas'
 
-const textboxes = z.array(textboxPropertiesSchema)
-
 export const updateMemeSchema = z
   .object({
-    meme: memeSchema,
-    textboxes
+    meme: memeSchema.omit({ textboxes: true }),
+    textboxes: z.array(textboxPropertiesSchema)
   })
   .required()
 

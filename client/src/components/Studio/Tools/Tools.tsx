@@ -35,7 +35,7 @@ const Tools = () => {
         overflow: 'hidden'
       }}
     >
-      <ToolsActions onAddText={onAddText} />
+      <ToolsActions meme={meme} onAddText={onAddText} />
       <Box
         flex={1}
         display="flex"

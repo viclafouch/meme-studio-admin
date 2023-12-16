@@ -14,6 +14,8 @@ export class MemesController {
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   findOne(@Param('id') id: string) {
-    return this.memesService.findOne(id)
+    return this.memesService.findOne(id, {
+      withTextboxes: true
+    })
   }
 }
