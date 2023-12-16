@@ -1,4 +1,8 @@
-import { Meme, memeSchema } from '@viclafouch/meme-studio-utilities/schemas'
+import {
+  LightMeme,
+  Meme,
+  memeSchema
+} from '@viclafouch/meme-studio-utilities/schemas'
 import type { UpdateMemeDto } from './../../../src/memes/dto/update-meme.dto'
 import { requestWithAuth } from './helpers'
 
@@ -8,7 +12,7 @@ export function getAllMemes() {
       'content-type': 'application/json'
     })
     .get('/memes')
-    .json<Meme[]>()
+    .json<LightMeme[]>()
 }
 
 export function getOneMeme(id: Meme['id']) {
@@ -33,4 +37,8 @@ export function updateMeme(memeId: Meme['id'], body: UpdateMemeDto) {
     .url(`/memes/update/${memeId}`)
     .put(body)
     .json<Meme>(memeSchema.parse)
+}
+
+export async function deleteMeme(memeId: Meme['id']) {
+  return requestWithAuth.url(`/memes/delete/${memeId}`).delete().res()
 }

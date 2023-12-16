@@ -1,5 +1,6 @@
 import React from 'react'
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp'
+import { Stack } from '@mui/material'
 import MuiAccordion, {
   AccordionProps as MuiAccordionProps
 } from '@mui/material/Accordion'
@@ -59,9 +60,16 @@ export type AccordionProps = {
   isOpened: boolean
   title: string
   onChange: (newExpanded: boolean) => void
+  actions: React.ReactNode
 }
 
-const Accordion = ({ onChange, isOpened, children, title }: AccordionProps) => {
+const Accordion = ({
+  onChange,
+  isOpened,
+  children,
+  title,
+  actions
+}: AccordionProps) => {
   const handleChange = (event: React.SyntheticEvent, newExpanded: boolean) => {
     onChange(newExpanded)
   }
@@ -69,7 +77,15 @@ const Accordion = ({ onChange, isOpened, children, title }: AccordionProps) => {
   return (
     <AccordionStyled expanded={isOpened} onChange={handleChange}>
       <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-        <Typography>{title}</Typography>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          width="100%"
+          alignItems="center"
+        >
+          <Typography>{title}</Typography>
+          {actions}
+        </Stack>
       </AccordionSummary>
       <AccordionDetails>{children}</AccordionDetails>
     </AccordionStyled>

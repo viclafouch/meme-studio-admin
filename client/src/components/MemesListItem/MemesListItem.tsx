@@ -9,10 +9,10 @@ import {
   Typography
 } from '@mui/material'
 import { Link } from '@tanstack/react-router'
-import { Meme } from '../../types/meme.interface'
+import { LightMeme } from '@viclafouch/meme-studio-utilities/schemas'
 
 export type MemesListItemProps = {
-  meme: Meme
+  meme: LightMeme
 }
 
 const MemesListItem = ({ meme }: MemesListItemProps) => {

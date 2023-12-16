@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box } from '@mui/material'
+import { Box, styled } from '@mui/material'
 import {
   useCanvasDimensions,
   useDrawing,
@@ -11,6 +11,15 @@ import {
 import { Meme, TextBox } from '@viclafouch/meme-studio-utilities/schemas'
 import { CanvasStyled, CanvasWrapperStyled } from './Canvas.styled'
 import Draggable from './Draggable'
+
+const Image = styled('img')({
+  position: 'absolute',
+  left: 0,
+  top: 0,
+  height: '100%',
+  width: '100%',
+  zIndex: -1
+})
 
 const Canvas = () => {
   const meme = useMeme() as Meme
@@ -45,10 +54,10 @@ const Canvas = () => {
         <CanvasWrapperStyled
           style={{
             height: canvasDimensions.height,
-            width: canvasDimensions.width,
-            backgroundImage: `url('${meme.imageUrl}')`
+            width: canvasDimensions.width
           }}
         >
+          <Image src={meme.imageUrl} alt="" />
           {isVisibleDraggables && canvasDimensions.height
             ? textboxes.map((textbox) => {
                 return (

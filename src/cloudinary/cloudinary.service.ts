@@ -43,7 +43,7 @@ export class CloudinaryService {
   }
 
   async removeFile(publicId: string) {
-    return v2.uploader.destroy(publicId, {
+    return this.getAuthV2().uploader.destroy(publicId, {
       invalidate: true,
       resource_type: 'image'
     })

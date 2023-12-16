@@ -52,7 +52,7 @@ export class MemesService {
       height: dto.height,
       width: dto.width,
       imageUrl: fileData.secure_url,
-      fileId
+      imagePublicId: fileData.public_id
     })
 
     const meme = await createdMeme.save()
@@ -121,7 +121,32 @@ export class MemesService {
     }
   }
 
-  async deleteOne(): Promise<Meme[]> {
-    return []
+  async deleteOne(memeId: string): Promise<void> {
+    const meme = await this.getMemeDocById(memeId)
+
+    const session = await this.memeModel.startSession()
+    session.startTransaction()
+
+    try {
+      await this.textboxModel
+        .deleteMany({ _id: { $in: meme.textboxes } })
+        .session(session)
+
+      await this.memeModel.findOneAndDelete(meme.id).session(session)
+
+      const { result } = await this.cloudinary.removeFile(meme.imagePublicId)
+
+      if (result !== 'ok') {
+        throw new Error(result)
+      }
+
+      await session.commitTransaction()
+      await session.endSession()
+    } catch (error) {
+      await session.abortTransaction()
+      await session.endSession()
+
+      throw error
+    }
   }
 }

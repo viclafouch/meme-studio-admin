@@ -6,6 +6,7 @@ import { MemesService } from 'src/memes/memes.service'
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -55,9 +56,16 @@ export class AuthController {
   }
 
   @HttpCode(HttpStatus.OK)
-  // @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   @Put('memes/update/:id')
   async updateMeme(@Param('id') id: string, @Body() body: UpdateMemeDto) {
     return this.memesService.updateOne(id, body)
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(AuthGuard)
+  @Delete('memes/delete/:id')
+  async deleteMeme(@Param('id') id: string) {
+    return this.memesService.deleteOne(id)
   }
 }

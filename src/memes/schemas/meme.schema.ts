@@ -17,7 +17,7 @@ export class Meme {
   imageUrl: string
 
   @Prop()
-  fileId: string
+  imagePublicId: string
 
   @Prop()
   width: number

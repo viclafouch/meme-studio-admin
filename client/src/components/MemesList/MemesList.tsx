@@ -1,10 +1,10 @@
 import React from 'react'
 import Grid from '@mui/material/Unstable_Grid2'
-import { Meme } from '../../types/meme.interface'
+import { LightMeme } from '@viclafouch/meme-studio-utilities/schemas'
 import MemesListItem from '../MemesListItem'
 
 export type MemesListProps = {
-  memes: Meme[]
+  memes: LightMeme[]
 }
 
 const MemesList = ({ memes }: MemesListProps) => {

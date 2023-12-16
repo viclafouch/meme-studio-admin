@@ -1,9 +1,6 @@
 import { styled } from '@mui/material'
 
 export const CanvasWrapperStyled = styled('div')({
-  backgroundPosition: 'center',
-  backgroundRepeat: 'no-repeat',
-  backgroundSize: '100%',
   left: '50%',
   top: '50%',
   position: 'absolute',

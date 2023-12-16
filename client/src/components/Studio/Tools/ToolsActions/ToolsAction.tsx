@@ -4,13 +4,14 @@ import AddIcon from '@mui/icons-material/Add'
 import SaveIcon from '@mui/icons-material/Save'
 import LoadingButton from '@mui/lab/LoadingButton'
 import { Box, Button } from '@mui/material'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import {
   useRatiotedTextboxes,
   useTools
 } from '@viclafouch/meme-studio-utilities/hooks'
 import { Meme } from '@viclafouch/meme-studio-utilities/schemas'
 import { updateMeme } from '../../../../api/memes'
+import { queries } from '../../../../config/queries'
 
 export type ToolsActionsProps = {
   onAddText: () => void
@@ -21,21 +22,28 @@ const ToolsActions = ({ onAddText, meme }: ToolsActionsProps) => {
   const { addTextbox } = useTools()
   const ratiotedTextboxes = useRatiotedTextboxes()
   const { enqueueSnackbar } = useSnackbar()
+  const queryClient = useQueryClient()
 
   const updateMemeMutation = useMutation({
     mutationFn: () => {
       return updateMeme(meme.id, {
         meme,
         textboxes: ratiotedTextboxes().map((textbox) => {
-          return textbox.properties
+          return {
+            ...textbox.properties,
+            value: ''
+          }
         })
       })
     },
-    onSuccess: () => {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: queries.meme.getOne(meme.id).queryKey
+      })
       enqueueSnackbar('Mise à jour effectuée', { variant: 'success' })
     },
     onError: () => {
-      enqueueSnackbar('Mise à jour effectuée', { variant: 'error' })
+      enqueueSnackbar('Une erreur inconnue est survenue', { variant: 'error' })
     }
   })
 
