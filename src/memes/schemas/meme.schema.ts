@@ -20,6 +20,9 @@ export class Meme {
   imagePublicId: string
 
   @Prop()
+  name: string
+
+  @Prop()
   width: number
 
   @Prop()

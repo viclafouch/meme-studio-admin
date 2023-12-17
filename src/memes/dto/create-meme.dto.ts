@@ -14,4 +14,6 @@ export class MemeDto {
   width: number
 
   height: number
+
+  name: string
 }

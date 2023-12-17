@@ -10,6 +10,7 @@ import {
 } from '@mui/material'
 import { useClipboard } from '@viclafouch/meme-studio-utilities/hooks'
 import { Meme } from '@viclafouch/meme-studio-utilities/schemas'
+import { getMemeSlug } from '@viclafouch/meme-studio-utilities/utils'
 
 export type GeneralTabProps = {
   meme: Meme
@@ -20,12 +21,18 @@ const GeneralTab = ({ meme }: GeneralTabProps) => {
 
   const handleCopy = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
-    copy({ blob: new Blob([meme.imagePublicId], { type: 'text/plain' }) })
+    copy(new Blob([meme.imagePublicId], { type: 'text/plain' }))
   }
 
   return (
     <Stack component="form" mt={2} direction="column" gap={2}>
-      <TextField label="Nom" fullWidth size="small" />
+      <TextField
+        helperText={`Le slug est : ${getMemeSlug(meme)}`}
+        value={meme.name}
+        label="Nom"
+        fullWidth
+        size="small"
+      />
       <TextField
         value={meme.imageUrl}
         label="Image URL"

@@ -16,7 +16,9 @@ const EditMeme = () => {
     <Stack direction="column" flex={1} gap={3}>
       <Stack direction="row" justifyContent="space-between">
         <Box>
-          <Typography variant="h2">Test</Typography>
+          <Typography variant="h4" component="h1">
+            {meme.name}
+          </Typography>
         </Box>
         <Box>
           <DeleteMeme memeId={meme.id} />

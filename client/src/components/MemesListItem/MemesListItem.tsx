@@ -24,11 +24,12 @@ const MemesListItem = ({ meme }: MemesListItemProps) => {
           component="img"
           height="140"
           image={meme.imageUrl}
-          alt="green iguana"
+          alt={meme.name}
+          loading="lazy"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {meme.width}
+            {meme.name}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             {meme.width}x{meme.height}
