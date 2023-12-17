@@ -37,17 +37,17 @@ const ResponsiveAppBar = () => {
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="/"
             sx={{
               mr: 2,
               fontFamily: 'monospace',
               fontWeight: 700,
-              letterSpacing: '.3rem',
+              letterSpacing: '0rem',
               color: 'inherit',
               textDecoration: 'none'
             }}
           >
-            LOGO
+            Meme Studio Admin
           </Typography>
           <Box sx={{ flexGrow: 1, display: 'flex' }}>
             {pages.map((page) => {

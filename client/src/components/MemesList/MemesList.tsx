@@ -12,7 +12,7 @@ const MemesList = ({ memes }: MemesListProps) => {
     <Grid container spacing={2}>
       {memes.map((meme) => {
         return (
-          <Grid key={meme.id} xs={3}>
+          <Grid key={meme.id} xs={12} sm={4} md={3}>
             <MemesListItem meme={meme} />
           </Grid>
         )
