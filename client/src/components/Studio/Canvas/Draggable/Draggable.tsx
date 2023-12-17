@@ -29,7 +29,7 @@ const Draggable = ({
 
   return (
     <DraggableBox
-      {...rootProps}
+      {...(rootProps as React.ComponentProps<typeof DraggableBox>)}
       aria-selected={isSelected}
       onClick={() => {
         return onClick(item)
