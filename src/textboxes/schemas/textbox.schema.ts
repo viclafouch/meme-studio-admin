@@ -6,6 +6,10 @@ import {
   TEXT_ALIGN
 } from '@viclafouch/meme-studio-utilities/constants'
 
+@Schema({
+  versionKey: false,
+  timestamps: false
+})
 class TextboxProperties {
   @Prop({ required: true })
   value: string

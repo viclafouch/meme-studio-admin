@@ -1,5 +1,8 @@
 {
   "extends": "@viclafouch/eslint-config-viclafouch/tsconfig.json",
   "include": ["src"],
+  "compilerOptions": {
+    "types": ["vite/client"]
+  },
   "references": [{ "path": "./tsconfig.node.json" }]
 }

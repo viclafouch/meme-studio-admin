@@ -123,17 +123,18 @@ export class MemesService {
   }
 
   async deleteOne(memeId: string): Promise<void> {
-    const meme = await this.getMemeDocById(memeId)
-
     const session = await this.memeModel.startSession()
+
     session.startTransaction()
 
     try {
+      const meme = await this.getMemeDocById(memeId)
+
       await this.textboxModel
         .deleteMany({ _id: { $in: meme.textboxes } })
         .session(session)
 
-      await this.memeModel.findOneAndDelete(meme.id).session(session)
+      await meme.deleteOne().session(session)
 
       const { result } = await this.cloudinary.removeFile(meme.imagePublicId)
 
