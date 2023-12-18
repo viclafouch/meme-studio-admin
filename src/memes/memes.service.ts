@@ -51,13 +51,14 @@ export class MemesService {
     const createdMeme = new this.memeModel({
       height: dto.height,
       width: dto.width,
+      name: dto.name,
       imageUrl: fileData.secure_url,
       imagePublicId: fileData.public_id
     })
 
     const meme = await createdMeme.save()
 
-    return meme.toJSON()
+    return meme.populate('textboxes')
   }
 
   async findAll(): Promise<Meme[]> {

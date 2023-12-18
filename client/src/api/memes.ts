@@ -1,5 +1,8 @@
+import { z } from 'zod'
 import {
+  CreateMeme,
   LightMeme,
+  lightMemeSchema,
   Meme,
   memeSchema
 } from '@viclafouch/meme-studio-utilities/schemas'
@@ -12,7 +15,7 @@ export function getAllMemes() {
       'content-type': 'application/json'
     })
     .get('/memes')
-    .json<LightMeme[]>()
+    .json<LightMeme[]>(z.array(lightMemeSchema).parse)
 }
 
 export function getOneMeme(id: Meme['id']) {
@@ -24,10 +27,10 @@ export function getOneMeme(id: Meme['id']) {
     .json<Meme>(memeSchema.parse)
 }
 
-export function newMeme({ image }: { image: File }) {
+export function newMeme(body: CreateMeme) {
   return requestWithAuth
     .url('/memes/new')
-    .formData({ image, width: 100, height: 100, slug: 'test' })
+    .formData(body)
     .post()
     .json<Meme>(memeSchema.parse)
 }

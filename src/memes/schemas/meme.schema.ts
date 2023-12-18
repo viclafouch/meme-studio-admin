@@ -13,19 +13,19 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 export class Meme {
   id: Types.ObjectId
 
-  @Prop()
+  @Prop({ required: true })
   imageUrl: string
 
-  @Prop()
+  @Prop({ required: true })
   imagePublicId: string
 
-  @Prop()
+  @Prop({ required: true })
   name: string
 
-  @Prop()
+  @Prop({ required: true })
   width: number
 
-  @Prop()
+  @Prop({ required: true })
   height: number
 
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Textbox' }])
