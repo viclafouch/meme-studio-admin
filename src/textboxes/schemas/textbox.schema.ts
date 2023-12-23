@@ -11,7 +11,7 @@ import {
   timestamps: false
 })
 class TextboxProperties {
-  @Prop({ required: true })
+  @Prop({ required: false })
   value: string
 
   @Prop({ required: true })

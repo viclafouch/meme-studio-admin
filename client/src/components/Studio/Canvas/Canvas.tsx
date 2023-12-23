@@ -49,6 +49,7 @@ const Canvas = () => {
       display="flex"
       flexDirection="column"
       alignItems="center"
+      pb={5}
     >
       <Box height="100%" width="100%" position="relative" ref={containerRef}>
         <CanvasWrapperStyled

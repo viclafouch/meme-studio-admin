@@ -17,6 +17,7 @@ const Studio = ({ meme }: StudioProps) => {
         height="100%"
         gap="5%"
         gridTemplateColumns="40% auto"
+        alignItems="flex-start"
         flex={1}
       >
         <Tools />

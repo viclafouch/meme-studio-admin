@@ -19,7 +19,7 @@ export type ToolsActionsProps = {
 }
 
 const ToolsActions = ({ onAddText, meme }: ToolsActionsProps) => {
-  const { addTextbox } = useTools()
+  const { addItem } = useTools()
   const ratiotedTextboxes = useRatiotedTextboxes()
   const { enqueueSnackbar } = useSnackbar()
   const queryClient = useQueryClient()
@@ -49,7 +49,7 @@ const ToolsActions = ({ onAddText, meme }: ToolsActionsProps) => {
 
   const handleAddTextbox = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
-    addTextbox()
+    addItem()
     onAddText?.()
   }
 

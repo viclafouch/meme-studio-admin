@@ -15,7 +15,7 @@ const EditMeme = () => {
   const meme = memeQuery.data
 
   return (
-    <Stack direction="column" flex={1} gap={3}>
+    <Stack direction="column" gap={3}>
       <Stack direction="row" justifyContent="space-between">
         <Typography variant="h4" component="h1">
           {meme.name}{' '}
