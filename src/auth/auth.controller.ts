@@ -1,5 +1,6 @@
 import { FormDataRequest } from 'nestjs-form-data'
 import { AuthGuard } from 'src/auth/auth.guard'
+import { defaultLocale } from 'src/constants/locale'
 import { MemeDto } from 'src/memes/dto/create-meme.dto'
 import { UpdateMemeDto } from 'src/memes/dto/update-meme.dto'
 import { MemesService } from 'src/memes/memes.service'
@@ -35,7 +36,7 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Get('memes')
   getMemes() {
-    return this.memesService.findAll()
+    return this.memesService.findAll({ locale: defaultLocale })
   }
 
   @UseGuards(AuthGuard)
@@ -43,7 +44,8 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   getMeme(@Param('id') id: string) {
     return this.memesService.findOne(id, {
-      withTextboxes: true
+      withTextboxes: true,
+      locale: defaultLocale
     })
   }
 

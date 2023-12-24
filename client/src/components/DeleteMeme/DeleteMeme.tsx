@@ -39,6 +39,9 @@ const DeleteMeme = ({ memeId }: DeleteMemeProps) => {
         to: '/memes',
         replace: true
       })
+      enqueueSnackbar('Suppression effectuée avec succès !', {
+        variant: 'success'
+      })
     },
     onError: () => {
       enqueueSnackbar('Une erreur inconnue est survenue', { variant: 'error' })

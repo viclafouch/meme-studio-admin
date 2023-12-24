@@ -1,6 +1,7 @@
 import { InferSchemaType, Types } from 'mongoose'
 import * as mongoose from 'mongoose'
 import { TextBox } from 'src/textboxes/schemas/textbox.schema'
+import { Translation } from 'src/translations/schemas/translation.schema'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 
 @Schema({
@@ -30,6 +31,9 @@ export class Meme {
 
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Textbox' }])
   textboxes: TextBox[]
+
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Translation' }])
+  translations: Translation[]
 }
 
 export const MemeSchema = SchemaFactory.createForClass(Meme)

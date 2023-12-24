@@ -18,6 +18,7 @@ import { AuthModule } from './auth/auth.module'
 import { CloudinaryModule } from './cloudinary/cloudinary.module'
 import { MemesModule } from './memes/memes.module'
 import { TextboxesModule } from './textboxes/textboxes.module'
+import { TranslationsModule } from './translations/translations.module'
 import { UsersModule } from './users/users.module'
 
 @Module({
@@ -47,7 +48,8 @@ import { UsersModule } from './users/users.module'
       }
     }),
     CloudinaryModule,
-    TextboxesModule
+    TextboxesModule,
+    TranslationsModule
   ],
   providers: [
     {
