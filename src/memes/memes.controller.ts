@@ -27,4 +27,13 @@ export class MemesController {
       locale
     })
   }
+
+  @Get('metadata/:id')
+  @HttpCode(HttpStatus.OK)
+  findOneWithTranslations(
+    @Param('id') id: string,
+    @Query('locale') locale = defaultLocale
+  ) {
+    return this.memesService.findOneWithTranslations(id, locale)
+  }
 }

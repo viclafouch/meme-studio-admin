@@ -29,6 +29,9 @@ export class Meme {
   @Prop({ required: true })
   height: number
 
+  @Prop({ required: true })
+  keywords: string[]
+
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Textbox' }])
   textboxes: TextBox[]
 

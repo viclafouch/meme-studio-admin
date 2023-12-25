@@ -12,7 +12,7 @@ export class Translation {
   name: string
 
   @Prop({ required: true })
-  tags: string[]
+  keywords: string[]
 }
 
 export const TranslationSchema = SchemaFactory.createForClass(Translation)

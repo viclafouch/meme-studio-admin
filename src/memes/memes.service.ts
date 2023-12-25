@@ -34,6 +34,7 @@ export class MemesService {
 
         if (translation) {
           ret.name = translation.name
+          ret.keywords = translation.keywords
         }
 
         return ret
@@ -77,6 +78,7 @@ export class MemesService {
       height: dto.height,
       width: dto.width,
       name: dto.name,
+      keywords: [],
       imageUrl: fileData.secure_url,
       imagePublicId: fileData.public_id
     })
@@ -116,6 +118,14 @@ export class MemesService {
     if (withTextboxes) {
       await meme.populate('textboxes')
     }
+
+    await meme.populate('translations')
+
+    return this.getTranslatedMeme(meme, locale)
+  }
+
+  async findOneWithTranslations(id: string, locale: string): Promise<Meme> {
+    const meme = await this.getMemeDocById(id)
 
     await meme.populate('translations')
 
