@@ -44,43 +44,40 @@ const Canvas = () => {
 
   return (
     <Box
-      flex={1}
+      height="100%"
       width="100%"
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      pb={5}
+      position="relative"
+      sx={{ overflow: 'hidden' }}
+      ref={containerRef}
     >
-      <Box height="100%" width="100%" position="relative" ref={containerRef}>
-        <CanvasWrapperStyled
-          style={{
-            height: canvasDimensions.height,
-            width: canvasDimensions.width
-          }}
-        >
-          <Image src={meme.imageUrl} alt="" />
-          {isVisibleDraggables && canvasDimensions.height
-            ? textboxes.map((textbox) => {
-                return (
-                  <Draggable
-                    key={textbox.id}
-                    item={textbox}
-                    canvasHeight={canvasDimensions.height}
-                    canvasWidth={canvasDimensions.width}
-                    updateItem={updateTextbox}
-                    onClick={onDraggableClick}
-                    isSelected={itemIdSelected === textbox.id}
-                  />
-                )
-              })
-            : null}
-          <CanvasStyled
-            ref={canvasElRef}
-            width={canvasDimensions.width}
-            height={canvasDimensions.height}
-          />
-        </CanvasWrapperStyled>
-      </Box>
+      <CanvasWrapperStyled
+        style={{
+          height: canvasDimensions.height,
+          width: canvasDimensions.width
+        }}
+      >
+        <Image src={meme.imageUrl} alt={meme.name} loading="eager" />
+        {isVisibleDraggables && canvasDimensions.height
+          ? textboxes.map((textbox) => {
+              return (
+                <Draggable
+                  key={textbox.id}
+                  item={textbox}
+                  canvasHeight={canvasDimensions.height}
+                  canvasWidth={canvasDimensions.width}
+                  updateItem={updateTextbox}
+                  onClick={onDraggableClick}
+                  isSelected={itemIdSelected === textbox.id}
+                />
+              )
+            })
+          : null}
+        <CanvasStyled
+          ref={canvasElRef}
+          width={canvasDimensions.width}
+          height={canvasDimensions.height}
+        />
+      </CanvasWrapperStyled>
     </Box>
   )
 }

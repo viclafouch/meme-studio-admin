@@ -43,10 +43,7 @@ export class AuthController {
   @Get('memes/:id')
   @HttpCode(HttpStatus.OK)
   getMeme(@Param('id') id: string) {
-    return this.memesService.findOne(id, {
-      withTextboxes: true,
-      locale: defaultLocale
-    })
+    return this.memesService.findOne(id, { locale: defaultLocale })
   }
 
   @HttpCode(HttpStatus.OK)

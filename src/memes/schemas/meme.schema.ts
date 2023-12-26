@@ -4,6 +4,9 @@ import { TextBox } from 'src/textboxes/schemas/textbox.schema'
 import { Translation } from 'src/translations/schemas/translation.schema'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const mongooseLeanId = require('mongoose-lean-id')
+
 @Schema({
   versionKey: false,
   timestamps: {
@@ -40,6 +43,8 @@ export class Meme {
 }
 
 export const MemeSchema = SchemaFactory.createForClass(Meme)
+
+MemeSchema.plugin(mongooseLeanId)
 
 MemeSchema.set('toJSON', {
   virtuals: true,

@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto'
-import { Document, Model, Types } from 'mongoose'
+import { Model, Types } from 'mongoose'
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service'
 import { defaultLocale } from 'src/constants/locale'
 import { MemeDto } from 'src/memes/dto/create-meme.dto'
@@ -9,6 +9,7 @@ import { TextBox } from 'src/textboxes/schemas/textbox.schema'
 import { Translation } from 'src/translations/schemas/translation.schema'
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
+import { Locales } from '@viclafouch/meme-studio-utilities/constants'
 
 @Injectable()
 export class MemesService {
@@ -19,27 +20,17 @@ export class MemesService {
     private cloudinary: CloudinaryService
   ) {}
 
-  private getTranslatedMeme(
-    meme: Document<unknown, unknown, Meme> &
-      Meme & {
-        _id: Types.ObjectId
-      },
-    locale: string
-  ) {
-    return meme.toJSON({
-      transform: (_, ret: Meme) => {
-        const translation = meme.translations.find((t) => {
-          return t.locale === locale
-        })
-
-        if (translation) {
-          ret.name = translation.name
-          ret.keywords = translation.keywords
-        }
-
-        return ret
-      }
+  private getTranslatedMeme(meme: Meme, locale: Locales) {
+    const translation = meme.translations.find((t) => {
+      return t.locale === locale
     })
+
+    if (translation) {
+      meme.name = translation.name
+      meme.keywords = translation.keywords
+    }
+
+    return meme
   }
 
   private async getMemeDocById(memeId: string) {
@@ -89,6 +80,7 @@ export class MemesService {
       .findById(meme._id)
       .populate('textboxes')
       .populate('translations')
+      .lean()
       .exec()
 
     return populatedMeme!
@@ -97,9 +89,9 @@ export class MemesService {
   async findAll({
     locale = defaultLocale
   }: {
-    locale: string
+    locale: Locales
   }): Promise<Meme[]> {
-    const memes = await this.memeModel.find().populate('translations').exec()
+    const memes = await this.memeModel.find().populate('translations').lean()
 
     return memes.map((meme) => {
       return this.getTranslatedMeme(meme, locale)
@@ -108,45 +100,35 @@ export class MemesService {
 
   async findOne(
     id: string,
-    {
-      withTextboxes = false,
-      locale = 'en'
-    }: { withTextboxes: boolean; locale: string }
+    { locale = defaultLocale }: { locale: Locales }
   ): Promise<Meme> {
     const meme = await this.getMemeDocById(id)
 
-    if (withTextboxes) {
-      await meme.populate('textboxes')
-    }
-
-    await meme.populate('translations')
-
-    return this.getTranslatedMeme(meme, locale)
-  }
-
-  async findOneWithTranslations(id: string, locale: string): Promise<Meme> {
-    const meme = await this.getMemeDocById(id)
-
+    await meme.populate('textboxes')
     await meme.populate('translations')
 
     return this.getTranslatedMeme(meme, locale)
   }
 
   async updateOne(memeId: string, dto: UpdateMemeSchema): Promise<Meme> {
-    const meme = await this.getMemeDocById(memeId)
+    const currentMeme = await this.getMemeDocById(memeId)
 
     const session = await this.memeModel.startSession()
     session.startTransaction()
 
     try {
-      await this.textboxModel.deleteMany({ _id: { $in: meme.textboxes } })
-      const { textboxes } = dto
+      await this.textboxModel.deleteMany({ _id: { $in: currentMeme } })
+      await this.translationModel.deleteMany({
+        _id: { $in: currentMeme.translations }
+      })
+      const { textboxes, translations, meme } = dto
+
+      const createdTranslations =
+        await this.translationModel.insertMany(translations)
 
       const createdTextboxes = await this.textboxModel.insertMany(
         textboxes.map((properties) => {
-          return {
-            properties
-          }
+          return { properties }
         })
       )
 
@@ -154,13 +136,31 @@ export class MemesService {
         return textboxDoc.id
       })
 
+      const translationsIds: string[] = createdTranslations.map(
+        (translationDoc) => {
+          return translationDoc.id
+        }
+      )
+      console.log({
+        textboxes: textboxIds,
+        translations: translationsIds,
+        name: meme.name,
+        keywords: meme.keywords
+      })
+
       const updatedMeme = await this.memeModel
         .findByIdAndUpdate(
           memeId,
-          { textboxes: textboxIds },
+          {
+            textboxes: textboxIds,
+            translations: translationsIds,
+            name: meme.name,
+            keywords: meme.keywords
+          },
           { new: true, upsert: true }
         )
         .populate('textboxes')
+        .populate('translations')
         .session(session)
 
       await session.commitTransaction()

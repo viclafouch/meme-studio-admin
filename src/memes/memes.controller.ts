@@ -22,18 +22,6 @@ export class MemesController {
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   findOne(@Param('id') id: string, @Query('locale') locale = defaultLocale) {
-    return this.memesService.findOne(id, {
-      withTextboxes: true,
-      locale
-    })
-  }
-
-  @Get('metadata/:id')
-  @HttpCode(HttpStatus.OK)
-  findOneWithTranslations(
-    @Param('id') id: string,
-    @Query('locale') locale = defaultLocale
-  ) {
-    return this.memesService.findOneWithTranslations(id, locale)
+    return this.memesService.findOne(id, { locale })
   }
 }
