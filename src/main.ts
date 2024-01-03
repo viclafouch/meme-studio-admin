@@ -12,7 +12,7 @@ async function bootstrap() {
   app.enableCors()
   app.useGlobalPipes(new ValidationPipe())
 
-  await app.listen(3000)
+  await app.listen(process.env.PORT || 3000)
   console.log(`Application is running on: ${await app.getUrl()}`)
 }
 
