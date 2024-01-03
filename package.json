@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "dev:watch": "nest start --watch",
-    "build": "nest build",
+    "build": "nest build && cd client && npm install && npm run build",
     "start": "nest start",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
