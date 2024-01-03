@@ -25,9 +25,8 @@ import { UsersModule } from './users/users.module'
   imports: [
     MemesModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'client', 'dist'),
-      exclude: ['/api/(.*)'],
-      serveRoot: '/'
+      rootPath: join(__dirname, '../..', 'client', 'dist'),
+      exclude: ['/api/(.*)']
     }),
     AuthModule,
     UsersModule,
