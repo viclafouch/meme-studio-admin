@@ -18,6 +18,7 @@
     "@mui/material": "^5.14.20",
     "@tanstack/react-query": "^5.13.4",
     "@tanstack/react-router": "^0.0.1-beta.246",
+    "@viclafouch/meme-studio-utilities": "^1.0.24",
     "immer": "^10.0.3",
     "mui-chips-input": "^2.1.3",
     "mui-color-input": "^2.0.1",
@@ -33,9 +34,10 @@
   "devDependencies": {
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
+    "@viclafouch/eslint-config-viclafouch": "^4.4.0",
     "@vitejs/plugin-react": "^4.2.1",
     "eslint": "^8.55.0",
     "typescript": "^5.3.3",
-    "vite": "^5.0.7"
+    "vite": "^5.0.10"
   }
 }
