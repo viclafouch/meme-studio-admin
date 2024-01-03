@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "dev:watch": "nest start --watch",
+    "dev": "nest start --watch",
     "build": "nest build && cd client && npm install && npm run build",
     "start": "nest start",
     "start:debug": "nest start --debug --watch",
