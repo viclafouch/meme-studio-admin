@@ -1,8 +1,8 @@
 import { InferSchemaType, Types } from 'mongoose'
 import * as mongoose from 'mongoose'
-import { TextBox } from 'src/textboxes/schemas/textbox.schema'
-import { Translation } from 'src/translations/schemas/translation.schema'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import { TextBox } from '../../textboxes/schemas/textbox.schema'
+import { Translation } from '../../translations/schemas/translation.schema'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const mongooseLeanId = require('mongoose-lean-id')

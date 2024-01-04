@@ -1,15 +1,15 @@
 import { randomUUID } from 'crypto'
 import { Model, Types } from 'mongoose'
-import { CloudinaryService } from 'src/cloudinary/cloudinary.service'
-import { defaultLocale } from 'src/constants/locale'
-import { MemeDto } from 'src/memes/dto/create-meme.dto'
-import { UpdateMemeSchema } from 'src/memes/dto/update-meme.dto'
-import { Meme } from 'src/memes/schemas/meme.schema'
-import { TextBox } from 'src/textboxes/schemas/textbox.schema'
-import { Translation } from 'src/translations/schemas/translation.schema'
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Locales } from '@viclafouch/meme-studio-utilities/constants'
+import { CloudinaryService } from '../cloudinary/cloudinary.service'
+import { defaultLocale } from '../constants/locale'
+import { TextBox } from '../textboxes/schemas/textbox.schema'
+import { Translation } from '../translations/schemas/translation.schema'
+import { MemeDto } from './dto/create-meme.dto'
+import { UpdateMemeSchema } from './dto/update-meme.dto'
+import { Meme } from './schemas/meme.schema'
 
 @Injectable()
 export class MemesService {
@@ -141,12 +141,6 @@ export class MemesService {
           return translationDoc.id
         }
       )
-      console.log({
-        textboxes: textboxIds,
-        translations: translationsIds,
-        name: meme.name,
-        keywords: meme.keywords
-      })
 
       const updatedMeme = await this.memeModel
         .findByIdAndUpdate(

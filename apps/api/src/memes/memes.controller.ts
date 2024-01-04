@@ -1,4 +1,3 @@
-import { defaultLocale } from 'src/constants/locale'
 import {
   Controller,
   Get,
@@ -7,6 +6,7 @@ import {
   Param,
   Query
 } from '@nestjs/common'
+import { defaultLocale } from '../constants/locale'
 import { MemesService } from './memes.service'
 
 @Controller('memes')

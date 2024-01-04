@@ -1,8 +1,6 @@
 import { NestjsFormDataModule } from 'nestjs-form-data'
 import { ZodValidationPipe } from 'nestjs-zod'
 import { join } from 'path'
-import { jwtConstants } from 'src/constants/jwt'
-import { LoggerMiddleware } from 'src/logger.middleware'
 import {
   MiddlewareConsumer,
   Module,
@@ -16,6 +14,8 @@ import { MongooseModule } from '@nestjs/mongoose'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import { AuthModule } from './auth/auth.module'
 import { CloudinaryModule } from './cloudinary/cloudinary.module'
+import { jwtConstants } from './constants/jwt'
+import { LoggerMiddleware } from './logger.middleware'
 import { MemesModule } from './memes/memes.module'
 import { TextboxesModule } from './textboxes/textboxes.module'
 import { TranslationsModule } from './translations/translations.module'

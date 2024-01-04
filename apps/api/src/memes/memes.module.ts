@@ -1,11 +1,11 @@
-import { CloudinaryService } from 'src/cloudinary/cloudinary.service'
-import { MemeSchema } from 'src/memes/schemas/meme.schema'
-import { TextBoxSchema } from 'src/textboxes/schemas/textbox.schema'
-import { TranslationSchema } from 'src/translations/schemas/translation.schema'
 import { Module } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
+import { CloudinaryService } from '../cloudinary/cloudinary.service'
+import { TextBoxSchema } from '../textboxes/schemas/textbox.schema'
+import { TranslationSchema } from '../translations/schemas/translation.schema'
 import { MemesController } from './memes.controller'
 import { MemesService } from './memes.service'
+import { MemeSchema } from './schemas/meme.schema'
 
 @Module({
   controllers: [MemesController],

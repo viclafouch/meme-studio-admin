@@ -6,7 +6,6 @@ import {
   Meme,
   memeSchema
 } from '@viclafouch/meme-studio-utilities/schemas'
-import type { UpdateMemeDto } from './../../../src/memes/dto/update-meme.dto'
 import { requestWithAuth } from './helpers'
 
 export function getAllMemes() {
@@ -35,7 +34,9 @@ export function newMeme(body: CreateMeme) {
     .json<Meme>(memeSchema.parse)
 }
 
-export function updateMeme(memeId: Meme['id'], body: UpdateMemeDto) {
+// TODO: remove any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function updateMeme(memeId: Meme['id'], body: any) {
   return requestWithAuth
     .url(`/memes/update/${memeId}`)
     .put(body)

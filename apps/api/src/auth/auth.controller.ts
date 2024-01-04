@@ -1,9 +1,4 @@
 import { FormDataRequest } from 'nestjs-form-data'
-import { AuthGuard } from 'src/auth/auth.guard'
-import { defaultLocale } from 'src/constants/locale'
-import { MemeDto } from 'src/memes/dto/create-meme.dto'
-import { UpdateMemeDto } from 'src/memes/dto/update-meme.dto'
-import { MemesService } from 'src/memes/memes.service'
 import {
   Body,
   Controller,
@@ -16,6 +11,11 @@ import {
   Put,
   UseGuards
 } from '@nestjs/common'
+import { defaultLocale } from '../constants/locale'
+import { MemeDto } from '../memes/dto/create-meme.dto'
+import { UpdateMemeDto } from '../memes/dto/update-meme.dto'
+import { MemesService } from '../memes/memes.service'
+import { AuthGuard } from './auth.guard'
 import { AuthService } from './auth.service'
 import { SignInDto } from './dto/sign-in.dto'
 
